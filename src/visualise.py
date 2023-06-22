@@ -3,6 +3,7 @@ pd.set_option('display.max_columns', None)
 import os
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import plotly.express as px
 import webbrowser
 
 ddir = "../data"
@@ -49,6 +50,14 @@ for patid in patids:
     fname = os.path.join("..","output",patid+".html")
     fig.write_html(fname)
     webbrowser.open_new_tab(fname)
+
+pats = [1,2,3,4]
+#fig = ff.create_distplot([df["COX Activity"][df["Patient"]==str(pat)] for pat in pats], ["Patient "+str(pat) for pat in pats], show_hist=True)
+
+fig = px.histogram(df, x="COX Activity", marginal="violin")
+fig.write_image(os.path.join("..","output","COX_all.png"),width=2550/2,height=1440/2)
+fig = px.histogram(df, x="COX Activity", color="Patient",marginal="violin")
+fig.write_image(os.path.join("..","output","COX_bypatient.png"),width=2550/2,height=1440/2)
 
 #fig.update_yaxes(range=[0, 100], row=1, col=1)
 #fig.update_traces(marker_size = 2, row=1,col=2)
